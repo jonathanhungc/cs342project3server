@@ -5,7 +5,6 @@ public class Category {
     String name;
     private String[] words;
     private int wordsRemaining;
-    private boolean completed;
 
     Category(String categoryName, String word1, String word2, String word3) {
 
@@ -29,9 +28,6 @@ public class Category {
 
     // get remaining number of words
     public int getWordsRemaining() { return wordsRemaining; }
-
-    public void setCompleted() { completed = true; }
-    public boolean getCompleted() { return completed; }
 
     public void nextWord() {
         if (wordsRemaining == 0)
