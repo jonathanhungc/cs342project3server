@@ -1,6 +1,5 @@
 GameInfo.class
 GuessingRound.class
-WelcomeController.class
 GuessingGame.class
 Server$ClientThread.class
 ServerController.class

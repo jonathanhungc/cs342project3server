@@ -14,6 +14,14 @@ public class GuessingRound {
         numMisses = 0;
     }
 
+    public String getCurrentWord() {
+        return new String(currentWord);
+    }
+
+    public String getCurrentCategoryName() {
+        return currentCategoryName;
+    }
+
     // check if the letter from the user is in the current word
     public void checkLetterInWord(char letter) {
 

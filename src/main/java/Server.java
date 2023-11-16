@@ -10,7 +10,6 @@ public class Server{
 
 	int port;
 	int count = 1;	
-	ArrayList<ClientThread> clients = new ArrayList<ClientThread>();
 	TheServer server;
 	private Consumer<Serializable> callback;
 	
@@ -29,16 +28,16 @@ public class Server{
 		public void run() {
 		
 			try(ServerSocket mysocket = new ServerSocket(port);){
-		    System.out.println("Server is waiting for a client!");
+
+				callback.accept("Server started!");
+		    	System.out.println("Server is waiting for a client!");
 		  
 			
 		    while(true) {
 		
 				ClientThread c = new ClientThread(mysocket.accept(), count);
 				callback.accept("client has connected to server: " + "client #" + count);
-				clients.add(c);
 				c.start();
-				
 				count++;
 				
 			    }
@@ -85,8 +84,11 @@ public class Server{
 							GameInfo info = new GameInfo("selectCategory");
 
 							info.setCategories(game.getCategoriesNames());
+							info.setWordsInCategories(game.getWordsInCategories());
 
 							out.writeObject(info);
+
+							callback.accept("Client #" + count + ": started game. Categories sent.");
 						}
 
 						// server receives request to send word to guess to the client
@@ -99,6 +101,9 @@ public class Server{
 							info.setCategories(game.getCategoriesNames());
 
 							out.writeObject(info);
+
+							callback.accept("Client #" + count + ": selected category '" + round.getCurrentCategoryName() +
+									"'. Guessing word: " + round.getCurrentWord());
 						}
 
 						// server receives letter from the client
@@ -148,12 +153,16 @@ public class Server{
 							out.writeObject(info);
 						}
 
-						callback.accept(data);
+						else if (data.flag.equals("exit")) {
+							callback.accept("Client #" + count + ": ended game.");
+							break;
+						}
+
+
 
 						}
 					catch(Exception e) {
-						callback.accept("OOOOPPs...Something wrong with the socket from client: " + count + "....closing down!");
-						clients.remove(this);
+						callback.accept("Client # " + count + ": error with socket connection.");
 						break;
 					}
 				}

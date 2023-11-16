@@ -37,6 +37,14 @@ public class GuessingGame {
         return names;
     }
 
+    public int[] getWordsInCategories() {
+        int[] counts = new int[3];
+        for (int i = 0; i < categories.size(); i++) {
+            counts[i] = categories.get(i).getWordsRemaining();
+        }
+        return counts;
+    }
+
     private void fillCategories() {
         Category animals = new Category("Animals", "Chameleon", "Penguin", "Axolotl");
         Category food = new Category("Food", "Risotto", "Tiramisu", "Sorbet");

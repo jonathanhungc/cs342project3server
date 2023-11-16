@@ -1,0 +1,23 @@
+#portLabel {
+    -fx-font-size: 15;
+    -fx-text-fill: black;
+    -fx-alignment: top-left;
+    -fx-background-color: white;
+    -fx-background-radius: 5;
+    -fx-padding: 10;
+
+}
+
+
+#log {
+    -fx-text-fill: white;
+    -fx-background-radius: 10;
+    -fx-border-width: 15;
+}
+
+#root2 {
+    -fx-background-color: #198f70;
+    -fx-font-family: Arial;
+    -fx-spacing: 10;
+    -fx-padding: 20;
+}
