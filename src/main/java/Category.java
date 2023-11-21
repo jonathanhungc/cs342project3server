@@ -1,11 +1,15 @@
-import java.util.Arrays;
-
+/**
+ * FILE: Category.java
+ *
+ * Used to represent a category of the game.
+ */
 public class Category {
 
-    String name;
-    private String[] words;
-    private int wordsRemaining;
+    private String name; // name of the category
+    private String[] words; // words in the category
+    private int wordsRemaining; // number of words remaining
 
+    // constructor that takes the category name and 3 words to add
     Category(String categoryName, String word1, String word2, String word3) {
 
         name = categoryName;
@@ -18,6 +22,8 @@ public class Category {
         wordsRemaining = 3;
     }
 
+    public String getName() { return name;}
+
     // get current word of the category
     public String getCurrentWord() {
         if (wordsRemaining == 0)
@@ -29,11 +35,11 @@ public class Category {
     // get remaining number of words
     public int getWordsRemaining() { return wordsRemaining; }
 
+    // move to the next word
     public void nextWord() {
         if (wordsRemaining == 0)
             return;
 
         wordsRemaining -= 1;
     }
-
 }

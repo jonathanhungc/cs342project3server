@@ -1,3 +1,10 @@
+/**
+ * FIlE: Server.java
+ *
+ * This file contains class Server, and two inner classes TheServer and ClientThread. This file implements the game
+ * logic of the guessing game using other classes.
+ */
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -6,14 +13,17 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
+/**
+ * Server: Used to start the server for the word guessing game.
+ */
 public class Server{
 
 	int port;
 	int count = 1;	
 	TheServer server;
 	private Consumer<Serializable> callback;
-	
-	
+
+	// When creating server, specify port number and callback
 	Server(int port, Consumer<Serializable> call){
 
 		this.port = port;
@@ -21,8 +31,11 @@ public class Server{
 		server = new TheServer();
 		server.start();
 	}
-	
-	
+
+
+	/**
+	 * TheServer: acts as the primary server for the game, listening for client connections.
+	 */
 	public class TheServer extends Thread{
 		
 		public void run() {
@@ -36,7 +49,7 @@ public class Server{
 		    while(true) {
 		
 				ClientThread c = new ClientThread(mysocket.accept(), count);
-				callback.accept("client has connected to server: " + "client #" + count);
+				callback.accept("Client #" +  count + ": connected to server.");
 				c.start();
 				count++;
 				
@@ -47,8 +60,11 @@ public class Server{
 				}
 			}//end of while
 	}
-	
 
+	/**
+	 * ClientThread: handles interaction with the user client by handling game logic, receiving input from user
+	 * and sending corresponding response based on the user's request.
+	 */
 	class ClientThread extends Thread{
 
 		Socket connection;
@@ -58,6 +74,7 @@ public class Server{
 		GuessingGame game;
 		GuessingRound round;
 
+		// socket for connection, and count for number of client connected
 		ClientThread(Socket s, int count){
 			this.connection = s;
 			this.count = count;
@@ -77,6 +94,7 @@ public class Server{
 
 			 while(true) {
 					try {
+						// read info from client
 						GameInfo data = (GameInfo) in.readObject();
 
 						// server receives request to send categories to the client
@@ -97,7 +115,7 @@ public class Server{
 							round = new GuessingRound(game.getCategory(data.message));
 
 							GameInfo info = new GameInfo("guess");
-							info.setElements(round.userGuess, round.numLettersGuessed, round.numMisses, game.categoriesPassed);
+							info.setElements(round.getUserGuess(), round.getNumLettersGuessed(), round.getNumMisses(), game.getCategoriesPassed());
 							info.setCategories(game.getCategoriesNames());
 
 							out.writeObject(info);
@@ -113,52 +131,64 @@ public class Server{
 
 							// if client won round
 							if (round.wonRound()) {
-								game.categoriesPassed += 1;
-								game.consecutiveMisses = 0;
+								game.setCategoriesPassed(game.getCategoriesPassed() + 1);
+								game.setConsecutiveMisses(0);
 
 								// after winning round, check if client won game
 								if (game.wonGame()) {
 									GameInfo info = new GameInfo("wonGame");
+									callback.accept("Client #" + count + ": won game.");
 									out.writeObject(info);
 									continue;
 								}
 
 								GameInfo info = new GameInfo("wonRound");
+								callback.accept("Client #" + count + ": won round of '" + round.getCurrentCategoryName() +
+										"' with word '" + round.getCurrentWord() + "'.");
 								out.writeObject(info);
-								game.removeCategory(round.currentCategoryName);
+								game.removeCategory(round.getCurrentCategoryName());
 								continue;
 							}
 
 							// if client lost round
 							if (round.lostRound()) {
-								game.consecutiveMisses += 1;
+								game.setConsecutiveMisses(game.getConsecutiveMisses() + 1);
 
 								// if client lost round, check if client lost game
 								if (game.lostGame()) {
 									GameInfo info = new GameInfo("lostGame");
+									callback.accept("Client #" + count + ": lost game.");
 									out.writeObject(info);
 									continue;
 								}
 
 								GameInfo info = new GameInfo("lostRound");
+								callback.accept("Client #" + count + ": lost round of '" + round.getCurrentCategoryName() +
+										"' with word '" + round.getCurrentWord() + "'.");
 								out.writeObject(info);
-								game.getCategory(round.currentCategoryName).nextWord();
+								game.getCategory(round.getCurrentCategoryName()).nextWord();
 								continue;
 							}
 
+							// user didn't win or lose, so send updated guess
 							GameInfo info = new GameInfo("guess");
-							info.setElements(round.userGuess, round.numLettersGuessed, round.numMisses, game.categoriesPassed);
+							info.setElements(round.getUserGuess(), round.getNumLettersGuessed(), round.getNumMisses(), game.getCategoriesPassed());
 							info.setCategories(game.getCategoriesNames());
 
 							out.writeObject(info);
 						}
 
+						// client restarts game
+						else if (data.flag.equals("restart")) {
+							callback.accept("Client #" + count + ": restarted game.");
+							game = new GuessingGame();
+						}
+
+						// client exits game
 						else if (data.flag.equals("exit")) {
 							callback.accept("Client #" + count + ": ended game.");
 							break;
 						}
-
-
 
 						}
 					catch(Exception e) {
