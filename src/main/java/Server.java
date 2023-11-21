@@ -52,6 +52,8 @@ public class Server{
 				callback.accept("Client #" +  count + ": connected to server.");
 				c.start();
 				count++;
+
+				System.out.println("Client #" + count + ": joined server.");
 				
 			    }
 			}//end of try
@@ -97,8 +99,11 @@ public class Server{
 						// read info from client
 						GameInfo data = (GameInfo) in.readObject();
 
+						System.out.println("Flag: " + data.flag);
+
 						// server receives request to send categories to the client
 						if (data.flag.equals("sendCategories")) {
+							System.out.println("sendCategories: " + count);
 							GameInfo info = new GameInfo("selectCategory");
 
 							info.setCategories(game.getCategoriesNames());
@@ -192,13 +197,11 @@ public class Server{
 
 						}
 					catch(Exception e) {
-						callback.accept("Client # " + count + ": error with socket connection.");
+						callback.accept("Client #" + count + ": error with socket connection.");
 						break;
 					}
 				}
 			}//end of run
-
-
 	}//end of client thread
 }
 

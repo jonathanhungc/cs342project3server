@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 public class GameInfo implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     char[] wordGuess; // It is empty at the start of each guess of a word, and the server updates constantly
                         // depending on the letter sent by the client
     int lettersGuessed; // server updates how many letters have been guessed of the current word
@@ -20,6 +22,8 @@ public class GameInfo implements Serializable {
     String flag; // flags that determine the type of request/response
 
     // constructor sets the flag of the object
+
+    GameInfo() {}
     GameInfo(String flag) {
         this.flag = flag;
     }
