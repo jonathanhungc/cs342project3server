@@ -1,12 +1,14 @@
 /**
  * FILE: GuessingRound.java
  *
- * Contains the logic for a round of guessing one word. A user's game will use multiple rounds.
+ * Contains the logic for a round of guessing one word. A user's game will use multiple rounds. It keeps track
+ * of the current word to guess, the letters the user has guessed, the number of letters guessed, the number
+ * of misses in the round.
  */
 public class GuessingRound {
 
-    private String currentCategoryName; // name of the category
-    private final char[] currentWord; // word to guess
+    private String categoryName; // name of the category
+    private char[] currentWord; // word to guess
     private char[] userGuess; // user's current guess
     private int numLettersGuessed; // number of letters guessed
     private int numMisses; // number of misses
@@ -14,7 +16,7 @@ public class GuessingRound {
     // Takes a Category object and takes the name and the current word to guess in the category. It initializes the
     // userGuess to an empty array of chars, and initializes variables to 0.
     GuessingRound(Category selection) {
-        currentCategoryName = selection.getName();
+        categoryName = selection.getName();
         currentWord = selection.getCurrentWord().toCharArray();
         userGuess = new char[currentWord.length];
         numLettersGuessed = 0;
@@ -26,15 +28,23 @@ public class GuessingRound {
         return new String(currentWord);
     }
 
+    // setter for currentWord, used for testing
+    public void setCurrentWord(String word) {currentWord = word.toCharArray();}
+
     // getter for the current category name
-    public String getCurrentCategoryName() {
-        return currentCategoryName;
+    public String getCategoryName() {
+        return categoryName;
     }
 
     public char[] getUserGuess() { return userGuess; }
 
+    // used for testing purposes, not the actual game
+    public void setUserGuess() { userGuess = new char[currentWord.length];}
+
+    // getter for number of letters guessed
     public int getNumLettersGuessed() { return numLettersGuessed; }
 
+    // getter for number of misses
     public int getNumMisses() { return numMisses; }
 
     // check if the letter from the user is in the current word

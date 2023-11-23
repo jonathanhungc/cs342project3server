@@ -1,3 +1,10 @@
+/**
+ * FILE: ServerController.java
+ *
+ * Controller for the server GUI. It switches the screen where you enter a port number, creates the Server and
+ * displays a log of all the actions from different clients in the GUI.
+ */
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -62,6 +69,7 @@ public class ServerController implements Initializable {
         });
     }
 
+    // setter for the height of the log (ListView)
     public void setLogHeight(int height) {
         log.setPrefHeight(height);
     }
@@ -70,7 +78,7 @@ public class ServerController implements Initializable {
     public void startServer(ActionEvent e) throws IOException {
         port = Integer.parseInt(textField.getText());
 
-        System.out.println(port);
+        System.out.println("Using port:" + port);
 
         //get instance of the loader class
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/server.fxml"));

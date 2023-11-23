@@ -1,7 +1,8 @@
 /**
  * FILE: Category.java
  *
- * Used to represent a category of the game.
+ * Used to represent a category of the game. It contains the name of the category, 3 words, and the number of
+ * words remaining in the category.
  */
 public class Category {
 
@@ -22,6 +23,7 @@ public class Category {
         wordsRemaining = 3;
     }
 
+    // getter for the name of the category
     public String getName() { return name;}
 
     // get current word of the category
