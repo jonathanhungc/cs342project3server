@@ -1,4 +1,3 @@
-
 /**
  * FIlE: Server.java
  *
@@ -153,7 +152,7 @@ public class Server {
 									" with word " + round.getCurrentWord() + ".");
 
 							serverResponse.setMessage(round.getCurrentWord());
-							serverResponse.setCategories(game.getCategoriesNames());
+							//serverResponse.setCategories(game.getCategoriesNames());
 							out.writeObject(serverResponse);
 							game.removeCategory(round.getCategoryName());
 							continue;
@@ -195,6 +194,15 @@ public class Server {
 					else if (clientResponse.flag.equals("restart")) {
 						callback.accept("Client #" + count + ": restarted game.");
 						game = new GuessingGame();
+
+						GameInfo serverResponse = new GameInfo("selectCategory");
+
+						serverResponse.setCategories(game.getCategoriesNames());
+						serverResponse.setWordsInCategories(game.getWordsInCategories());
+
+						out.writeObject(serverResponse);
+
+						callback.accept("Client #" + count + ": started game. Categories sent.");
 					}
 
 					// client exits game
