@@ -17,7 +17,7 @@ class MyTest {
 	@BeforeEach
 	void init() {
 		game = new GuessingGame();
-		round = new GuessingRound(game.getCategory("animals")); // current category for the round
+		round = new GuessingRound(game.getCategory("Animals")); // current category for the round
 	} // end of init()
 
 	// method to test valid letter guesses of a word
@@ -79,15 +79,15 @@ class MyTest {
 	// testing the name of the category
 	@Test
 	void testName() {
-		assertEquals("animals", round.getCategoryName());
+		assertEquals("Animals", round.getCategoryName());
 	}
 
 	// testing overall logic of the guessing game, if user won/lost
 	@Test
 	void testGuessingGame() {
-        assertArrayEquals(new String[]{"animals", "foods", "us states"}, game.getCategoriesNames());
-		game.removeCategory("foods");
-        assertArrayEquals(new String[]{"animals", "us states"}, game.getCategoriesNames());
+        assertArrayEquals(new String[]{"Animals", "Food", "US States"}, game.getCategoriesNames());
+		game.removeCategory("Food");
+        assertArrayEquals(new String[]{"Animals", "US States"}, game.getCategoriesNames());
 
 		game.setCategoriesPassed(3); // name of categories to win
 		assertTrue(game.wonGame());
@@ -101,7 +101,7 @@ class MyTest {
 
 		game.setConsecutiveMisses(3); // reset number of misses
 
-		Category category = game.getCategory("animals");
+		Category category = game.getCategory("Animals");
 		category.nextWord();
 		category.nextWord();
 		category.nextWord();
