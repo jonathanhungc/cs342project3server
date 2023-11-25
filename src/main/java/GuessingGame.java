@@ -13,7 +13,7 @@ public class GuessingGame {
     private int categoriesPassed; // number of categories passed
     private int consecutiveMisses; // number of consecutive round misses
     private final String[] foodsArr = {"mango", "sushi", "sorbet", "tofu", "apple",
-            "noodles", "quinoa", "salmon", "blueberries", "avocado",
+            "noodles", "quinoa", "salmon", "blueberry", "avocado",
             "pancakes", "falafel", "broccoli", "chocolate", "tacos",
             "grapes", "yogurt", "tiramisu", "shrimp", "risotto"};
     private final String[] animalsArr = {"elephant", "giraffe", "zebra", "lion", "tiger",
@@ -24,8 +24,6 @@ public class GuessingGame {
             "idaho", "iowa", "kansas", "kentucky", "maine",
             "mississippi", "montana", "nebraska", "nevada", "wyoming",
             "utah", "vermont", "florida", "georgia", "oklahoma"};
-
-
 
     // generate categories for the game
     GuessingGame() {
@@ -94,9 +92,9 @@ public class GuessingGame {
 
     // method to fill the categories
     private void fillCategories() {
-        Category animals = fillSingleCategory("animals", animalsArr);
-        Category food = fillSingleCategory("foods", foodsArr);
-        Category usStates = fillSingleCategory("us states", USstatesArr);
+        Category animals = fillSingleCategory("Animals", animalsArr);
+        Category food = fillSingleCategory("Food", foodsArr);
+        Category usStates = fillSingleCategory("US States", USstatesArr);
 
         categories.add(animals);
         categories.add(food);
