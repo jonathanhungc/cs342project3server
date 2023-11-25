@@ -212,7 +212,7 @@ public class Server {
 					}
 
 				} catch (Exception e) {
-					callback.accept("Client #" + count + ": disconnected unexpectedly.");
+					callback.accept("Client #" + count + ": disconnected.");
 					break;
 				}
 			}

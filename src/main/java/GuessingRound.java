@@ -53,6 +53,7 @@ public class GuessingRound {
         // letter not valid, increment number of misses
         if (!validLetter(letter)) {
             numMisses++;
+            return;
         }
 
         // check each letter in currentWord, and if there is a match, add letter to userGuess at specific position
